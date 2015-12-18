@@ -1,0 +1,124 @@
+<div ng-controller="companyCtrl">
+	<form method="POST" name="companyForm" id="company-form" ng-class='displayValidation.form ? "display-validation" : ""' novalidate>
+
+		<h3>Company Details</h3>
+		<hr>
+
+		<div class="well" ng-if="companies && companies.length > 0">
+			<ul>
+				<li ng-repeat="company in companies track by company._id">
+					{{ company.name }} -
+					{{ company.location }}
+					&nbsp;
+					<a href="" ng-click="toggle.company = true; $event.preventDefault(); editCompany(company, $index)">Edit</a> · 
+					<a href="" ng-click="removeCompany({ modified : company.modified })">Remove</a>
+				</li>
+			</ul>
+		</div>
+
+		<div class="form-group">
+			<label for="name">Name *</label>
+			<input type="text" name="name" id="name" class="form-control" ng-model="company.name" placeholder="Your company name" required>
+			<div ng-messages="companyForm.name.$error">
+				<span class="validation-message" ng-message="required">This field is required</span>
+			</div>
+		</div>
+
+		<img ng-src="{{ getImage(company.logo) }}" class="company-logo img-thumbnail">
+		<div class="form-group">
+			<label for="logo">Logo</label>
+			<input type="file" name="logo" id="logo" ng-model="company.logo" read-file valid-file-types="image/png|image/jpg|image/jpeg" max-file-size="<%= config['profile.logo.maxFileSize'] %>" required>
+			<div ng-messages="companyForm.logo.$error">
+				<span class="validation-message" ng-message="fileType">Not a valid image type</span>
+				<span class="validation-message" ng-message="required">This field is required</span>
+				<span class="validation-message" ng-message="fileSize">Image size exceeds allowed limit</span>
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label for="website">Website *</label>
+			<input type="text" name="website" id="website" class="form-control" ng-model="company.website" placeholder="Your company website" required>
+			<div ng-messages="companyForm.website.$error">
+				<span class="validation-message" ng-message="required">This field is required</span>
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label for="phones">Phones</label>
+			<tags-input name="phones" id="phones" class="form-control" ng-model="company.phones" placeholder="Add phone numbers" replace-spaces-with-dashes="false"></tags-input>
+		</div>
+
+		<div class="form-group">
+			<label for="email">Email *</label>
+			<input type="text" name="email" id="email" class="form-control" ng-model="company.email" placeholder="Your company email" required>
+			<div ng-messages="companyForm.email.$error">
+				<span class="validation-message" ng-message="required">This field is required</span>
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label for="location">Location *</label>
+			<input type="text" name="location" id="location" class="form-control" ng-model="company.location" placeholder="Your company location" required>
+			<div ng-messages="companyForm.location.$error">
+				<span class="validation-message" ng-message="required">This field is required</span>
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label for="markets">Markets *</label>
+			<tags-input name="markets" id="markets" class="form-control" ng-model="company.markets" placeholder="e.g. Mobile, E-commerce" replace-spaces-with-dashes="false" required></tags-input>
+			<div ng-messages="companyForm.markets.$error">
+				<span class="validation-message" ng-message="required">This field is required</span>
+			</div>
+		</div>		
+
+		<div class="form-group">
+			<label for="teamSize">Team Size *</label>
+			<select name="teamSize" id="teamSize" class="form-control" ng-model="company.teamSize" ng-options="teamSize for teamSize in embeddedJsonData.teamSizes" required>
+				<option value="">Please select a team size</option>
+			</select>
+			<div ng-messages="companyForm.teamSize.$error">
+				<span class="validation-message" ng-message="required">This selection is required</span>
+			</div>
+		</div>
+		
+		<div class="form-group">
+			<label for="slogan">Slogan *</label>
+			<input type="text" name="slogan" id="slogan" class="form-control" ng-model="company.slogan" placeholder="Your company slogan" required>
+			<div ng-messages="companyForm.slogan.$error">
+				<span class="validation-message" ng-message="required">This field is required</span>
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label for="whyus">Why Us *</label>
+			<textarea name="whyus" id="whyus" class="form-control" ng-model="company.whyus" placeholder="What's special about your company? What hard problems are you solving? What's great about your culture?" field-character-count="whyUsCharacterCount" maxlength="<%= config['company.whyus.maxLength'] %>" ng-trim="false" required></textarea>
+			<span>{{ whyUsCharacterCount || 0 }}/<%= config['company.whyus.maxLength'] %></span><br>
+			<div ng-messages="companyForm.whyus.$error">
+				<span class="validation-message" ng-message="required">This field is required</span>
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label for="product">Product *</label>
+			<textarea name="product" id="product" class="form-control" ng-model="company.product" placeholder="What is the product? What does it help the customer do? Who is the customer?" field-character-count="productCharacterCount" maxlength="<%= config['company.product.maxLength'] %>" ng-trim="false" required></textarea>
+			<span>{{ productCharacterCount || 0 }}/<%= config['company.product.maxLength'] %></span><br>
+			<div ng-messages="companyForm.product.$error">
+				<span class="validation-message" ng-message="required">This field is required</span>
+			</div>
+		</div>
+
+		<input type="hidden" ng-model="company.modified">
+		
+		<input type="button" value="Save Company" id="submit" class="btn btn-default" ng-disabled="displayValidation.form && companyForm.$invalid" ng-click="saveCompany($event, company)">
+		<span class="validation-message" ng-class='displayValidation.form ? "display-validation" : ""' ng-show="companyForm.$invalid">There are invalid fields</span>
+		<input type="button" value="Cancel Edit" id="edit" class="btn btn-default" ng-show="company.modified" ng-click="company = null; displayValidation.form = false">
+
+	</form>
+</div>
+
+<script type="application/json" id="embeddedJsonData">
+{
+	"teamSizes" : <%- JSON.stringify(config['company.teamSizes']) %>
+}
+</script>

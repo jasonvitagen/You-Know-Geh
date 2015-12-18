@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="jobs" ng-controller="rootCtrl">
+<head>
+	<meta charset="UTF-8">
+	<title ng-bind="$title + ' | Jobs'"></title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link rel="stylesheet" href="css/bootstrap.min.css">
+	<link rel="stylesheet" href="css/font-awesome.min.css">
+	<link rel="stylesheet" href="css/ngToast.min.css">
+	<link rel="stylesheet" href="css/bootstrap-social.css">
+	<link rel="stylesheet" href="css/ng-tags-input.css">
+	<link rel="stylesheet" href="css/style.css">
+
+	<base href="/">
+</head>
+<body>
+
+	<div class="container">
+
+		<div class="row">
+			<div class="col-sm-12">
+				<div ng-include="root.templateUrl.loggedInState"></div>
+				<br>
+			</div>
+		</div>
+
+		<div ui-view="main"></div>
+
+		<div class="row">
+			<div class="col-sm-12">
+				<hr>
+				<h6>
+					Portfolio by Jason Cheng Qi Shen 
+					<a href="https://github.com/loonmotor/jobs"><span class="label label-primary">GitHub</span></a>
+					<a href="mailto:jasonvitagen@gmail.com"><span class="label label-primary">jasoncheng@live.com.my</span></a>
+				</h6>
+
+
+			</div>
+		</div>
+
+	</div>
+
+	<toast></toast>
+
+	<script src="js/external/angular.min.js"></script>
+	<script src="js/external/angular-ui-router.min.js"></script>
+	<script src="js/external/angular-sanitize.min.js"></script>
+	<script src="js/external/angular-messages.min.js"></script>
+	<script src="js/external/angular-resource.min.js"></script>
+	<script src="js/external/angular-ui-router-title.js"></script>
+	<script src="js/external/ngToast.min.js"></script>
+	<script src="js/external/ui-bootstrap-tpls-0.13.4.min.js"></script>
+	<script src="js/external/ng-tags-input.min.js"></script>
+	<script src="js/external/async.min.js"></script>
+	<script src="js/modules/angular.ui.router.fromState.js"></script>
+	<script src="js/modules/util.js"></script>
+	<script src="js/main.js"></script>
+	<script src="js/config.js"></script>
+	<script src="js/controllers.js"></script>
+	<script src="js/directives.js"></script>
+	<script src="js/services.js"></script>
+	<script src="js/filters.js"></script>
+</body>
+</html>

@@ -1,0 +1,33 @@
+<h3>Jobs you are interested in</h3>
+<hr>
+
+<div class="well" ng-if="interestJobs.length > 0">
+	<ul>
+		<li ng-repeat="interestJob in interestJobs track by interestJob._id">
+			<a ui-sref="jobView({ id : interestJob._id })">{{ interestJob.title }}</a>
+			&nbsp;
+			<a href="" ng-click="uninterested(interestJob._id, $index)">Remove interest</a>
+		</li>
+	</ul>
+</div>
+
+<h3>Applicants interested in your jobs</h3>
+<hr>
+
+<div class="well" ng-if="interestApplicants.length > 0">
+	<ul>
+		<li ng-repeat="company in interestApplicants">
+			{{ company.name }} - {{ company.location }}
+			<ul>
+				<li ng-repeat="job in company.jobs">
+					{{ job.title }} - {{ job.jobType }}
+					<ul>
+						<li ng-repeat="applicant in job.interests">
+							<a ui-sref="profileView({ id : applicant.userId })">{{ applicant.name }}</a>
+						</li>
+					</ul>
+				</li>
+			</ul>
+		</li>
+	</ul>
+</div>

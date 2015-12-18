@@ -1,0 +1,79 @@
+<div ng-include="root.templateUrl.searchForm"></div>
+<div class="col-sm-12" id="company-view">
+	<div class="page-header">
+	  <h1>{{ company.name }} <small>{{ company.slogan }}</small></h1>
+	</div>
+	<p>
+		<a href="{{ company.website }}" target="_blank">
+			<img ng-src="{{ company.logo }}" alt="{{ company.name }}" class="logo">
+		</a>
+	</p>
+
+	<table class="table">
+		<tr>
+			<td>Company website</td>
+			<td><a href="{{ company.website }}" target="_blank">{{ company.website }}</a></td>
+		</tr>
+		<tr>
+			<td>Company phones</td>
+			<td ng-bind-html="company.phones.join('<br>') | trustAsHtml"></td>
+		</tr>
+		<tr>
+			<td>Company email</td>
+			<td>{{ company.email }}</td>
+		</tr>
+		<tr>
+			<td>Company location</td>
+			<td>
+				{{ company.location }}
+				<iframe
+				  width="100%"
+				  height="300"
+				  frameborder="0" style="border:0"
+				  ng-src="{{ 'https://www.google.com/maps/embed/v1/place?key=AIzaSyAuUOQdQDVri4dfs9myDmbBOkNF4DoSU1g&q=' + company.location | trustAsResourceUrl }}" allowfullscreen>
+				</iframe>
+			</td>
+		</tr>
+		<tr>
+			<td>Markets</td>
+			<td ng-bind-html="company.markets | map:'text' | join:'<br>' | trustAsHtml"></td>
+		</tr>
+		<tr>
+			<td>Company team size</td>
+			<td>{{ company.teamSize }}</td>
+		</tr>
+		<tr>
+			<td>Why us</td>
+			<td>{{ company.whyus }}</td>
+		</tr>
+		<tr>
+			<td>Product</td>
+			<td>{{ company.product }}</td>
+		</tr>
+	</table>
+
+	<br>
+
+	<h3>Jobs Offered by {{company.name}}</h3>
+	<table class="table table-condensed">
+		<thead>
+	        <tr>
+	          <th>Title</th>
+	          <th>Location</th>
+	          <th>Type</th>
+	          <th>Approximate Salary</th>
+	        </tr>
+      </thead>
+      <tbody>
+		<tr ng-repeat="companyJob in companyJobs">
+			<td>
+				<a ui-sref="jobView({ id : companyJob._id })">{{ companyJob.title }}</a>
+			</td>
+			<td>{{ companyJob.location }}</td>
+			<td>{{ companyJob.jobType }}</td>
+			<td>{{ companyJob.salaryCurrency + companyJob.salary }}</td>
+		</tr>
+      </tbody>
+	</table>
+
+</div>
